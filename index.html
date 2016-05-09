@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <style>
+        .button {
+            background-color: #474645;
+            border-radius: 5px;
+            border: green;
+            color: white;
+            padding: 10px 10px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+            cursor: pointer;
+        }
+    </style>
+    <meta charset="UTF-8">
+    <title>Пока что редактор</title>
+    <script src="handlers.js"></script>
+</head>
+<body>
+<div class="panel" id="panelID">
+    <button id="boldBut">Жирный</button>
+    <input type="file" name="img" id="fileID">
+</div>
+<div id="area" style="height: 100%;">
+<div id ="textArea" style="float:left;width:49%;background-color: aqua;height:100%;">
+    <textarea id="textEdit" style="width:99%;min-height:100px;max-height: 500px;resize:vertical;">Тестим редактор опа</textarea>
+</div>
+<div id="textShow" style="float:right;background-color: coral;width:50%; height:100%">
+    <p>здесь отобразится результирующая разметка</br>
+    </p>
+</div>
+
+</div>
+<script>
+    function addImageOption (source) {
+        var currentDiv = document.getElementById("textArea"),
+                currentElement = '<p class="button">' +
+                        source + '<span style="color:red;">x</span></p>';
+        currentDiv.append(currentElement);
+
+    }
+    var span=document.getElementsByTagName("span");
+    [].forEach.call(span,function(item){
+        item.onclick= function(){
+            alert("opa!!");
+        };
+    });
+    /*[].forEach.call(span,function(item){
+        console.log("------------------");
+        console.log(item);
+        item.onclick=function(){
+            alert("opa");
+        }
+    });*/
+    [].forEach.call(document.getElementById("textArea").getElementsByTagName("p"),function(item){
+        var pattern=/\d+/;
+        var match=pattern.exec(item.textContent);
+        console.log(item.textContent);
+        if (match)
+        console.log(match[0]);
+    })
+
+    console.dir(document.getElementById("textArea").getElementsByTagName("p"));
+    var image=document.getElementsByTagName("img");
+    console.dir(image[0]);
+    image=image[0];
+    console.log(image);
+    image.onclick = function () {
+        console.log("blablabla");
+        image.remove();
+    }
+    console.dir(image);
+</script>
+</body>
+</html>
