@@ -48,7 +48,7 @@ document.addEventListener("DOMContentLoaded",function(){
             reader.onloadend = function() {
                 img.src = reader.result;
                 console.dir(reader.result);
-            }
+            };
             reader.readAsDataURL(file);
             img.style.width="inherit";
             textdiv.appendChild(img);
@@ -64,36 +64,37 @@ document.addEventListener("DOMContentLoaded",function(){
         currentParag.setAttribute("class","button");
         currentParag.innerHTML=currentElement;
         var span=currentParag.getElementsByTagName("span")[0];
-        span.onclick = function() {
-            var pattern=/\d+/;
-            var match=pattern.exec(this.parentNode.textContent);
-            if (match)
-                console.log(match[0]);
-            removeCurrentImage(match[0]);
-            //console.dir(this.parentNode.parentNode);
-            changeImageOptionIndexes(match[0]);
-            this.parentNode.parentNode.removeChild(this.parentNode);
+        span.onclick = function(){
+            spanClickHandler(this);
         };
         currentDiv.appendChild(currentParag);
-
-    }
-    function changeImageOptionIndexes (currentIndex){
+    };
+    function spanClickHandler (currentEvent){
+        var pattern=/\d+/;
+        var match=pattern.exec(currentEvent.parentNode.textContent);
+        removeCurrentImage(match[0]);
+        changeImageIndexes(match[0]);
+        currentEvent.parentNode.parentNode.removeChild(currentEvent.parentNode);
+    };
+    function changeImageIndexes (currentIndex){
+        console.log("--"+currentIndex+"--");
         var imageOptions=document.getElementById("textArea").getElementsByTagName("p");
         while (currentIndex<imageOptions.length)
         {
+            //alert("<image"+currentIndex+">");
+            var textEdit=document.getElementById("textEdit");
+            var lol = "<image"+(+currentIndex+1)+">";
+            textEdit.value=textEdit.value.replace("<image"+(+currentIndex+1)+">","<image"+currentIndex+">");
             imageOptions[currentIndex].innerHTML=imageOptions[currentIndex].innerHTML.replace(
-                imageOptions[0].innerHTML.slice(5,imageOptions[0].innerHTML.indexOf("<span")-1),currentIndex
+                imageOptions[currentIndex].innerHTML.slice(5,imageOptions[currentIndex].innerHTML.indexOf("<span")-1),
+                currentIndex
             );
+            var span=imageOptions[currentIndex].firstElementChild;
+            span.onclick=function(){
+                spanClickHandler(this);
+            }
             currentIndex++;
         }
-        console.dir(imageOptions[0]);
-        console.log(imageOptions[0].innerHTML);
-        console.log("-------------------"+imageOptions[0].innerHTML.indexOf("<span"));
-        console.log(imageOptions[0].innerHTML.slice(5,imageOptions[0].innerHTML.indexOf("<span")-1))
-        /*while (currentIndex<=imageOptions.length)
-        {
-
-        }*/
     }
     function removeCurrentImage(number) {
         var textEditor=document.getElementById("textEdit"),
@@ -107,13 +108,13 @@ document.addEventListener("DOMContentLoaded",function(){
         var results=[];
         var pattern=/<image[\d]+>/g;
         var res;
-        console.log(source);
+        //console.log(source);
         while ((res = pattern.exec(source)) != null) {
-            console.log("Найдено " + res + " по индексу " + res.index);
-            results.push(res);
+            //console.log("Найдено " + res + " по индексу " + res.index);
+            console.log(res);
 
         }
-        alert(results.toString());
+        //alert(results.toString());
         /*while(a!=-1){
             source=source.slice(a*1+string.length);
             results.push();
@@ -127,7 +128,7 @@ document.addEventListener("DOMContentLoaded",function(){
         return this.slice(0, start) + string + this.slice(end);
     };
     function updateLayout() {
-        console.log("функция работает");
+        //console.log("функция работает");
         var textShow=document.getElementById("textShow"),
             textEdit=document.getElementById("textEdit");
         textShow.innerHTML=textEdit.value;
